@@ -17,7 +17,7 @@ public class GUIDriver extends Application {
         Timer test = new Timer();
         test.tick();
 
-
+		System.out.println("Git is finally working for me.");
 
     }
 }
