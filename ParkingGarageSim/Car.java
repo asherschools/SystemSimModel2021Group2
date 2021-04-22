@@ -3,26 +3,26 @@ import java.util.Random;
 
 public class Car {
 	
-	private int ID;
 	private double exitTime;
+	private double serviceTime;
 	private boolean outlier;
 	Random randy = new Random();
 	
-	Car(int ID, double exitTime, boolean outlier){
-		this.ID = ID;
+	Car(double serviceTime, double exitTime, boolean outlier){
 		this.exitTime = exitTime;
+		this.serviceTime = serviceTime;
 		this.outlier = outlier;
 		if(outlier == true) {
 			this.exitTime += randy.nextDouble()*30000;
 		}
 	}
 	
-	public int getID(){
-		return ID;
-	} 
-	
 	public double getExitTime(){
 		return exitTime;
+	}
+	
+	public double serviceTime(){
+		return serviceTime;
 	}
 
 }
