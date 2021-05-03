@@ -7,9 +7,14 @@ import java.util.Random;
 
 public class Timer {
 
-	long waitMIN = 5000;
-	long waitMAX = 7000;
-	long carSpawnRate = 6000;
+	//a normal car spends 6 to 11 seconds passing through the gate
+	long waitMIN = 6000;
+	long waitMAX = 11000;
+	//at rush hour, a car approaches the gate roughly every 15 seconds
+	long carSpawnRate = 15000;
+	//22% of cars exceed the normal time spent at the gate (get stuck)
+	double carStuckRate = 0.22;
+	//placeholder values
 	long carEntryTime = 0;
 	long averageServiceTime = 0;
 	long totalServiceTime = 0;
@@ -63,7 +68,9 @@ public class Timer {
 				carEntryTime = System.currentTimeMillis() + carSpawnRate;
 			}
 			if (carEntryTime < System.currentTimeMillis()) {
-				boolean stuck = ((randy.nextDouble() <= .15) ? (true) : (false));
+				boolean stuck = ((randy.nextDouble() <= carStuckRate) ? (true) : (false));
+				if(stuck) {
+				}
 				double serviceTime = (((Math.random() * (waitMAX - waitMIN)) + waitMIN));
 				Car C = new Car(serviceTime, (serviceTime + System.currentTimeMillis()), stuck);
 				totalCarVolume++;
@@ -71,7 +78,7 @@ public class Timer {
 				// calculates live average service time including the newly entered car
 				averageServiceTime = (totalServiceTime / totalCarVolume);
 
-				if (queue.size() > queue2.size()) {// is the second gate line shorter?
+				if (queue.size() > queue2.size()) {// check: is the second gate line shorter?
 					// if so, add to queue2
 					queue2.add(C);
 
@@ -101,7 +108,7 @@ public class Timer {
 	}
 	
 	private String timeToString(long ms) {
-		String formatted = String.valueOf((ms/1000)/60) + ":" + String.valueOf((double)(ms/1000));	
+		String formatted = (ms * (0.001)) + " Seconds";	
 		return formatted;
 	}
 	

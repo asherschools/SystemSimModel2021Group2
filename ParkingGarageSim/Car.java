@@ -5,15 +5,16 @@ public class Car {
 	
 	private double exitTime;
 	private double serviceTime;
-	private boolean outlier;
+	private int stuckTimeMax = 150000; //A car can be stuck for up to an extra 2 and 1/2 minutes
+	private double stuckTime = 0;
 	Random randy = new Random();
 	
 	Car(double serviceTime, double exitTime, boolean outlier){
 		this.exitTime = exitTime;
 		this.serviceTime = serviceTime;
-		this.outlier = outlier;
 		if(outlier == true) {
-			this.exitTime += randy.nextDouble()*30000;
+			stuckTime = randy.nextDouble()*stuckTimeMax;
+			this.exitTime += stuckTime;
 		}
 	}
 	
@@ -22,7 +23,7 @@ public class Car {
 	}
 	
 	public double serviceTime(){
-		return serviceTime;
+		return serviceTime + stuckTime;
 	}
 
 }
