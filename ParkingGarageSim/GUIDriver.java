@@ -36,6 +36,7 @@ public class GUIDriver extends Application {
 	private String boxText = "Maybe its working?";
 	BufferedReader reader = null;
 	private Timer test;
+	private static int lengthOfSim = 60;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -62,15 +63,15 @@ public class GUIDriver extends Application {
 		// Custom Stop Time box
 		Label timeLabel = new Label("Custom Stop Time:");
 		TextField timeText = new TextField();
-		timeText.setText("00:00");
+		timeText.setText("00");
 		timeText.setAlignment(Pos.CENTER);
 		timeText.setOnKeyPressed(new EventHandler<KeyEvent>() { // Just takes in time doesn't do anything with it yet
 
 			@Override
 			public void handle(KeyEvent event) {
 				if (event.getCode() == KeyCode.ENTER && !isStarted) {
-
 					System.out.println("Custom Text: " + timeText.getText());
+					GUIDriver.lengthOfSim = Integer.valueOf(timeText.getText());
 				}
 			}
 		});
@@ -111,7 +112,7 @@ public class GUIDriver extends Application {
 				System.out.println("The Sim has started");
 				test = new Timer();
 				try {
-					test.tick(60);
+					test.tick(GUIDriver.lengthOfSim);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -159,11 +160,11 @@ public class GUIDriver extends Application {
 	private void update(TextArea output, TextField q1Text, TextField q2Text, TextField avgText) {
 		//All thats needed is getters in Timers to be updated to give actual lengths 
 		//Length of q1
-		q1Text.setText(test.getQ1Length());		
+		q1Text.setText(test.getQ1Length() + "");		
 		//Length of q2
-		q2Text.setText(test.getQ2Length());	
+		q2Text.setText(test.getQ2Length() + "");	
 		//Average wait time
-		
+		avgText.setText(test.getAvgLengthString() + "");
 		
 		//the output box stuff
 		try {			
